@@ -93,3 +93,27 @@
   });
   nav.classList.add('ov3-menu-ready');
 })();
+
+/* Media kit CTA — integrates the brand dossier without changing the existing menu. */
+(() => {
+  'use strict';
+  const partnerships = document.querySelector('#parcerias');
+  if (!partnerships || partnerships.querySelector('[data-media-kit-entry]')) return;
+  const locale = (document.documentElement.lang || 'pt').slice(0, 2).toLowerCase();
+  const config = {
+    pt: { label: 'Ver media kit para marcas', url: '/flavioguercio/media-kit.html' },
+    en: { label: 'View brand media kit', url: '/flavioguercio/en/media-kit.html' },
+    es: { label: 'Ver dossier comercial', url: '/flavioguercio/es/media-kit.html' }
+  }[locale] || { label: 'Ver media kit para marcas', url: '/flavioguercio/media-kit.html' };
+  const anchor = document.createElement('a');
+  anchor.className = 'btn';
+  anchor.textContent = config.label + ' ↗';
+  anchor.href = config.url;
+  anchor.dataset.mediaKitEntry = '1';
+  anchor.dataset.ov2Event = 'media_kit';
+  anchor.style.margin = '4px 0 24px';
+  anchor.style.display = 'inline-block';
+  const lead = partnerships.querySelector('.lead');
+  if (lead) lead.insertAdjacentElement('afterend', anchor);
+  else partnerships.prepend(anchor);
+})();

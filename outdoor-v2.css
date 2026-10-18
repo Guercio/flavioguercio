@@ -53,3 +53,9 @@
   .ov2-archive > summary{padding:24px 22px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto!important};*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Static translated language links and interaction accessibility */
+nav .lang a{font:700 .72rem Inter,sans-serif;letter-spacing:.06em;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:5px 8px;text-decoration:none;line-height:1.5;display:inline-block}
+nav .lang a.on, nav .lang a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:#fff}
+nav .lang a:focus-visible, a:focus-visible, button:focus-visible, summary:focus-visible, img.zoom:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media(max-width:760px){nav .lang{flex-shrink:0}nav .wrap{gap:12px}nav ul{min-width:0}nav .wrap>b{font-size:.94rem}}

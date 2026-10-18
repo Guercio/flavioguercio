@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://guercio.github.io/flavioguercio/sitemap.xml

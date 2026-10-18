@@ -39,3 +39,57 @@
     else if(link.dataset.ov2Event) analytics('portfolio_cta_click',{cta:link.dataset.ov2Event});
   });
 })();
+
+/* Mobile navigation: three-language, keyboard and touch accessible. */
+(() => {
+  'use strict';
+  const nav = document.querySelector('nav');
+  const wrap = nav?.querySelector('.wrap');
+  const items = wrap?.querySelector(':scope > ul');
+  if (!nav || !wrap || !items || nav.classList.contains('ov3-menu-ready')) return;
+
+  const lang = (document.documentElement.lang || 'pt').slice(0,2).toLowerCase();
+  const text = {
+    pt: { label: 'Menu', open: 'Abrir menu de navegação', close: 'Fechar menu de navegação' },
+    en: { label: 'Menu', open: 'Open navigation menu', close: 'Close navigation menu' },
+    es: { label: 'Menú', open: 'Abrir menú de navegación', close: 'Cerrar menú de navegación' }
+  }[lang] || { label: 'Menu', open: 'Abrir menu', close: 'Fechar menu' };
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'ov3-menu-toggle';
+  toggle.setAttribute('aria-controls', items.id || 'ov3-mobile-links');
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-label', text.open);
+  if (!items.id) items.id = 'ov3-mobile-links';
+
+  const icon = document.createElement('span');
+  icon.className = 'ov3-menu-icon';
+  icon.setAttribute('aria-hidden','true');
+  for (let i=0;i<3;i++) icon.appendChild(document.createElement('i'));
+  const label = document.createElement('span');
+  label.textContent = text.label;
+  toggle.append(icon, label);
+  wrap.appendChild(toggle);
+
+  function setOpen(open){
+    nav.classList.toggle('ov3-nav-open',open);
+    toggle.setAttribute('aria-expanded',String(open));
+    toggle.setAttribute('aria-label',open?text.close:text.open);
+  }
+  toggle.addEventListener('click', () => setOpen(!nav.classList.contains('ov3-nav-open')));
+  items.addEventListener('click', event => { if(event.target.closest('a')) setOpen(false); });
+  document.addEventListener('pointerdown', event => {
+    if(nav.classList.contains('ov3-nav-open') && !nav.contains(event.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', event => {
+    if(event.key === 'Escape' && nav.classList.contains('ov3-nav-open')){
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+  window.addEventListener('resize', () => {
+    if(window.innerWidth>760 && nav.classList.contains('ov3-nav-open')) setOpen(false);
+  });
+  nav.classList.add('ov3-menu-ready');
+})();
